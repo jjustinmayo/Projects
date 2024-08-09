@@ -1,1 +1,3 @@
-# guessing_game
+# JM Projects
+
+Learning and building stuff
