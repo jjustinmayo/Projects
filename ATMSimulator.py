@@ -16,6 +16,7 @@ def dollar_change(action, amount, total_balance, cash_on_hand):
     elif action == "W":
         total_balance -= amount
         cash_on_hand += amount
+    return total_balance, cash_on_hand
         
 check = input("Insert your card? (Y/N): ").upper()
 
@@ -31,14 +32,19 @@ if check == "Y":
     if action == "D":
         amount = int(input("Deposit Amount: "))
         if (cash_on_hand > 0 and amount <= cash_on_hand):
-            dollar_change(action, amount, total_balance, cash_on_hand)
-            print("New balance ", total_balance)
+            total_balance, cash_on_hand = dollar_change(action, amount, total_balance, cash_on_hand)
+            print("New Bank Balance ", total_balance)
             print("Total cash on hand: ", cash_on_hand)
-            input("Make another transaction") 
         else: 
             print("Insufficient funds")
     elif action == "W":
         amount = int(input("Withdraw Amount: "))
+        if (cash_on_hand > 0 and amount <= cash_on_hand):
+            total_balance, cash_on_hand = dollar_change(action, amount, total_balance, cash_on_hand)
+            print("New Bank Balance ", total_balance)
+            print("Total cash on hand: ", cash_on_hand)
+        else: 
+            print("Insufficient funds")
     elif action == "C":
         print("Current Balance: $", total_balance)
     else:
