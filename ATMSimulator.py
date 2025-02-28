@@ -5,7 +5,7 @@
 # deposit, withdraw, check balance, exit
 
 
-total_balance = 2500
+total_balance = 5000
 
 cash_on_hand = 1000
 
