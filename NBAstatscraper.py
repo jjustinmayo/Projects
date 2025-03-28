@@ -1,9 +1,19 @@
 
-from basketball_reference_scraper.teams import get_roster, get_team_stats  #instructions on how to use
-import pandas as pd
+from bs4 import BeautifulSoup
 import requests
 
-# API documentation: https://github.com/vishaalagartha/basketball_reference_scraper/blob/master/API.md
 
-#print(get_roster('TOR',2019))
-print(get_team_stats('TOR', 2019, data_format='TOTALS'))
+page_to_scrape = requests.get("https://www.basketball-reference.com/leagues/NBA_2025_per_game.html")
+
+soup = BeautifulSoup(page_to_scrape.text, "html.parser")
+
+#names = soup.find_all("td", attrs ={"data-stat": "name_display"})
+stop_at = soup.find("div", class_ ="placeholder")
+names = stop_at.find_all_previous("td", attrs ={"data-stat": "name_display"})
+
+
+for name in names:
+    anchor = name.find("a")        # Try to find the <a> tag inside the <td>
+    if anchor:                     # Only proceed if an <a> tag is actually found
+        print(anchor.text)       # Safely access and print the text (e.g., player name)
+
