@@ -2,7 +2,9 @@
 from bs4 import BeautifulSoup
 import requests
 import csv
-import pandas as pd
+import os
+import json
+from supabase import create_client, Client
 
 
 page_to_scrape = requests.get("https://www.basketball-reference.com/leagues/NBA_2025_per_game.html")
@@ -48,4 +50,3 @@ with open("NBAstats.csv", "w", encoding="utf-8",newline='') as file:
                          'fg3_pct': fg3p.text,'ft_per_g':ft.text,'fta_per_g':fta.text,'ft_pct':ftp.text,'trb_per_g':trb.text,'ast_per_g':ast.text,'stl_per_g':stl.text,
                          'blk_per_g':blk.text,'tov_per_g':tov.text,'pts_per_g':pts.text})
 
-#file.close()
