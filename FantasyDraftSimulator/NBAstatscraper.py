@@ -61,19 +61,26 @@ for n,p,gp,fg,fga,fgp,fg3,fg3a,fg3p,ft,fta,ftp,trb,ast,stl,blk,tov,pts in zip(na
 unique_players = []
 seen_names = set()
 
-def populate_nba_stats(supabase):
-    for player in NBAdict:  
-        name = player["name"]
-        if name not in seen_names:
-            unique_players.append(player)
-            seen_names.add(name)
-    data = supabase.table('NBAStats').insert(unique_players).execute()
+#def populate_nba_stats(supabase):
+for player in NBAdict:  
+    name = player["name"]
+    if name not in seen_names:
+        unique_players.append(player)
+        seen_names.add(name)
+#data = supabase.table('NBAStats').insert(unique_players).execute()
+
+
+def refresh_nba_stats(supabase):
+    data = supabase.table("NBAStats").upsert(unique_players, on_conflict = "name").execute() # upsert used to insert and update; on conflict to define the unique primary key
+
 
 def main():
     load_dotenv()
     url: str = os.environ.get("SUPABASE_URL")
     key: str = os.environ.get("SUPABASE_KEY")
     supabase: Client = create_client(url, key)
-    populate_nba_stats(supabase)
+    #populate_nba_stats(supabase)
+    refresh_nba_stats(supabase)
 
 main()
+
